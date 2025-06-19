@@ -5,5 +5,7 @@ namespace DelsassoStock.Domain.Interfaces
     public interface IProductRepository
     {
         Task AddAsync(ProductItem produto);
+
+        Task<IEnumerable<ProductItem>> GetAllAsync();
     }
 }

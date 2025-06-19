@@ -25,5 +25,17 @@ namespace DelsassoStock.Domain.Services
                 return false;
             }
         }
+
+        public async Task<IEnumerable<ProductItem>> GetAllProductsAsync()
+        {
+            try
+            {
+                return await _productRepository.GetAllAsync();
+            }
+            catch
+            {
+                return Enumerable.Empty<ProductItem>();
+            }
+        }
     }
 }

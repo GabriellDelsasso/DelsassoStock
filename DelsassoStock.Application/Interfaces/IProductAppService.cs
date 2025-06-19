@@ -6,5 +6,7 @@ namespace DelsassoStock.Application.Interfaces
     public interface IProductAppService
     {
         Task<ProductItem> RegisterProduct(ProductViewModel productViewModel);
+
+        Task<IEnumerable<ProductItem>> GetAllProducts();
     }
 }

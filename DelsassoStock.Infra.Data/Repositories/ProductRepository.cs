@@ -1,6 +1,7 @@
 ﻿using DelsassoStock.Domain.Interfaces;
 using DelsassoStock.Domain.Models.Product;
 using DelsassoStock.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace DelsassoStock.Infra.Data.Repositories
 {
@@ -17,6 +18,11 @@ namespace DelsassoStock.Infra.Data.Repositories
         {
             await _context.Products.AddAsync(produto);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ProductItem>> GetAllAsync()
+        {
+            return await _context.Products.ToListAsync();
         }
     }
 }

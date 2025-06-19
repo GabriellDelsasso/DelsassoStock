@@ -46,5 +46,17 @@ namespace DelsassoStock.Application.Services
             }
             return null;
         }
+
+        public async Task<IEnumerable<ProductItem>> GetAllProducts()
+        {
+            try
+            {
+                return await _productDomainService.GetAllProductsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving products.", ex);
+            }
+        }
     }
 }
