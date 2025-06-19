@@ -7,5 +7,9 @@ namespace DelsassoStock.Domain.Interfaces
         Task AddAsync(ProductItem produto);
 
         Task<IEnumerable<ProductItem>> GetAllAsync();
+
+        Task UpdateAsync(ProductItem produto);
+
+        Task<ProductItem> GetByIdAsync(Guid id);
     }
 }

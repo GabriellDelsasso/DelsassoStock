@@ -58,5 +58,33 @@ namespace DelsassoStock.Application.Services
                 throw new Exception("An error occurred while retrieving products.", ex);
             }
         }
+
+        public async Task<bool> UpdateProduct(Guid idProduct, ProductViewModel productViewModel)
+        {
+            if (productViewModel != null)
+            {
+                try
+                {
+                    var validator = new ProductViewModelValidator();
+                    var validationResult = await validator.ValidateAsync(productViewModel);
+
+                    if (!validationResult.IsValid)
+                        return false;
+
+                    var productItem = await _productDomainService.GetProductByIdAsync(idProduct);
+
+                    productItem.Name = productViewModel.Name;
+                    productItem.Quantity = productViewModel.Quantity;
+                    productItem.Price = productViewModel.Price;
+
+                    return await _productDomainService.UpdateProductAsync(productItem);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("An error occurred while updating the product.", ex);
+                }
+            }
+            return false;
+        }
     }
 }

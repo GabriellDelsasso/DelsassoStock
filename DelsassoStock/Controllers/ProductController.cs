@@ -62,10 +62,29 @@ namespace DelsassoStock.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Updates the details of an existing product.
+        /// </summary>
+        /// <remarks>
+        /// This method requires a valid <paramref name="idProduct"/> and a properly populated 
+        /// <paramref name="productViewModel"/> object. Ensure that the product exists before calling this
+        /// method.
+        /// </remarks>
+        /// <param name="idProduct">The unique identifier of the product to be updated.</param>
+        /// <param name="productViewModel">The updated product details provided in the request body.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see langword="Ok"/> if the
+        /// product was updated successfully;  otherwise, returns <see langword="BadRequest"/> with an error message.
+        /// </returns>
         [HttpPost("EditProduct")]
-        public async Task<ActionResult> EditProduct(Guid id, [FromBody] ProductViewModel productViewModel)
+        public async Task<ActionResult> EditProduct(Guid idProduct, [FromBody] ProductViewModel productViewModel)
         {
+            var result = await _productAppService.UpdateProduct(idProduct, productViewModel);
 
+            if (!result)
+                return BadRequest("Failed to update product");
+
+            return Ok("Product updated successfully");
         }
 
         [HttpDelete("DeleteProduct")]

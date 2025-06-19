@@ -24,5 +24,16 @@ namespace DelsassoStock.Infra.Data.Repositories
         {
             return await _context.Products.ToListAsync();
         }
+
+        public async Task UpdateAsync(ProductItem produto)
+        {
+            _context.Entry(produto).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ProductItem> GetByIdAsync(Guid id)
+        {
+            return await _context.Products.FindAsync(id);
+        }
     }
 }

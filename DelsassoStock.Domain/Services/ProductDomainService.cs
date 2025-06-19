@@ -37,5 +37,30 @@ namespace DelsassoStock.Domain.Services
                 return Enumerable.Empty<ProductItem>();
             }
         }
+
+        public async Task<bool> UpdateProductAsync(ProductItem productItem)
+        {
+            try
+            {
+                await _productRepository.UpdateAsync(productItem);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<ProductItem> GetProductByIdAsync(Guid id)
+        {
+            try
+            {
+                return await _productRepository.GetByIdAsync(id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

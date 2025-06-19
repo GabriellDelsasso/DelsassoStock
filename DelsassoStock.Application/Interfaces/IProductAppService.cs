@@ -8,5 +8,7 @@ namespace DelsassoStock.Application.Interfaces
         Task<ProductItem> RegisterProduct(ProductViewModel productViewModel);
 
         Task<IEnumerable<ProductItem>> GetAllProducts();
+
+        Task<bool> UpdateProduct(Guid idProduct, ProductViewModel productViewModel);
     }
 }
