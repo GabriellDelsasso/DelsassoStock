@@ -57,7 +57,7 @@ namespace DelsassoStock.Controllers
             var result = await _productAppService.GetAllProducts();
 
             if (result.Count() == 0)
-                return BadRequest("Failure to search for products");
+                return BadRequest("Failure to search for products!");
 
             return Ok(result);
         }
@@ -84,13 +84,18 @@ namespace DelsassoStock.Controllers
             if (!result)
                 return BadRequest("Failed to update product");
 
-            return Ok("Product updated successfully");
+            return Ok("Product updated successfully!");
         }
 
         [HttpDelete("DeleteProduct")]
-        public async Task<ActionResult> DeleteProduct(Guid id)
+        public async Task<ActionResult> DeleteProduct(Guid idProduct)
         {
+            var result = await _productAppService.DeleteProductAsync(idProduct);
 
+            if (!result)
+                return BadRequest("Failed to delete product");
+
+            return Ok("Product deleted successfully!");
         }
     }
 }

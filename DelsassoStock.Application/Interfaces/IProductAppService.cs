@@ -10,5 +10,7 @@ namespace DelsassoStock.Application.Interfaces
         Task<IEnumerable<ProductItem>> GetAllProducts();
 
         Task<bool> UpdateProduct(Guid idProduct, ProductViewModel productViewModel);
+
+        Task<bool> DeleteProductAsync(Guid id);
     }
 }

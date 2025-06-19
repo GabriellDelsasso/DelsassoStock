@@ -86,5 +86,17 @@ namespace DelsassoStock.Application.Services
             }
             return false;
         }
+
+        public async Task<bool> DeleteProductAsync(Guid idProduct)
+        {
+            try
+            {
+                return await _productDomainService.DeleteProductAsync(idProduct);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while deleting the product.", ex);
+            }
+        }
     }
 }

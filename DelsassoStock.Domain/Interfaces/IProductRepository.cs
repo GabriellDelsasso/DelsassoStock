@@ -11,5 +11,7 @@ namespace DelsassoStock.Domain.Interfaces
         Task UpdateAsync(ProductItem produto);
 
         Task<ProductItem> GetByIdAsync(Guid id);
+
+        Task DeleteAsync(Guid id);
     }
 }

@@ -62,5 +62,18 @@ namespace DelsassoStock.Domain.Services
                 return null;
             }
         }
+
+        public async Task<bool> DeleteProductAsync(Guid id)
+        {
+            try
+            {
+                await _productRepository.DeleteAsync(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
