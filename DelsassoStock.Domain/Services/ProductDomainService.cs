@@ -51,7 +51,7 @@ namespace DelsassoStock.Domain.Services
             }
         }
 
-        public async Task<ProductItem> GetProductByIdAsync(Guid id)
+        public async Task<ProductItem?> GetProductByIdAsync(Guid id)
         {
             try
             {

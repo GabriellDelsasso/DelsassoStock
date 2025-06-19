@@ -23,7 +23,7 @@ namespace DelsassoStock.Application.Services
                     var validationResult = await validator.ValidateAsync(productViewModel);
 
                     if (!validationResult.IsValid)
-                        return null;
+                        throw new Exception("Validation failed.");
 
                     ProductItem productItem = new ProductItem
                     {
@@ -44,7 +44,7 @@ namespace DelsassoStock.Application.Services
                     throw new Exception("An error occurred while registering the product.", ex);
                 }
             }
-            return null;
+            throw new ArgumentNullException(nameof(productViewModel), "ProductViewModel cannot be null.");
         }
 
         public async Task<IEnumerable<ProductItem>> GetAllProducts()
@@ -72,6 +72,9 @@ namespace DelsassoStock.Application.Services
                         return false;
 
                     var productItem = await _productDomainService.GetProductByIdAsync(idProduct);
+
+                    if (productItem == null)
+                        return false;
 
                     productItem.Name = productViewModel.Name;
                     productItem.Quantity = productViewModel.Quantity;

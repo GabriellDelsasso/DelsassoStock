@@ -33,7 +33,12 @@ namespace DelsassoStock.Infra.Data.Repositories
 
         public async Task<ProductItem> GetByIdAsync(Guid id)
         {
-            return await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+                throw new KeyNotFoundException("Product not found.");
+
+            return product;
         }
 
         public async Task DeleteAsync(Guid id)
