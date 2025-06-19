@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\DelsassoStock.Application\DelsassoStock.Application.csproj" />
+    <ProjectReference Include="..\DelsassoStock.Domain\DelsassoStock.Domain.csproj" />
+    <ProjectReference Include="..\DelsassoStock.Infra.Data\DelsassoStock.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

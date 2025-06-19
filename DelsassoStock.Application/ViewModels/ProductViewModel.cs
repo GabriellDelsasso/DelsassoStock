@@ -6,6 +6,7 @@ namespace DelsassoStock.Application.ViewModels
     {
         public string Name { get; set; } = String.Empty;
         public Decimal Price { get; set; }
+        public int Quantity { get; set; }
     }
 
     public class ProductViewModelValidator : AbstractValidator<ProductViewModel>
