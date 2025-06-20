@@ -41,5 +41,38 @@ namespace DelsassoStock.Domain.Services
                 return Enumerable.Empty<Client>();
             }
         }
+
+        public async Task<bool> UpdateCustomerAsync(Client customer, string oldCpf)
+        {
+            try
+            {
+                if (customer.Cpf != oldCpf)
+                {
+                    var cpfExists = await _customerRepository.CpfExistsAsync(customer.Cpf);
+
+                    if (cpfExists)
+                        return false;
+                }
+
+                await _customerRepository.UpdateAsync(customer);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<Client?> GetCustomerByIdAsync(Guid id)
+        {
+            try
+            {
+                return await _customerRepository.GetByIdAsync(id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

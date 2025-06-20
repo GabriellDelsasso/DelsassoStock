@@ -30,5 +30,21 @@ namespace DelsassoStock.Infra.Data.Repositories
         {
             return await _context.Clients.ToListAsync();
         }
+
+        public async Task UpdateAsync(Client customer)
+        {
+            _context.Entry(customer).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Client> GetByIdAsync(Guid id)
+        {
+            var customer = await _context.Clients.FindAsync(id);
+
+            if (customer == null)
+                throw new KeyNotFoundException("Customer not found.");
+
+            return customer;
+        }
     }
 }

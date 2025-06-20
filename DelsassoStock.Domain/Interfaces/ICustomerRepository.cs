@@ -9,5 +9,9 @@ namespace DelsassoStock.Domain.Interfaces
         Task<bool> CpfExistsAsync(string cpf);
 
         Task<IEnumerable<Client>> GetAllAsync();
+
+        Task UpdateAsync(Client cutomer);
+
+        Task<Client> GetByIdAsync(Guid id);
     }
 }

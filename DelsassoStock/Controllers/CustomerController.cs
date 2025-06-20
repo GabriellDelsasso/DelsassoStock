@@ -41,11 +41,15 @@ namespace DelsassoStock.Controllers
         /// <summary>
         /// Retrieves all customers from the system.
         /// </summary>
-        /// <remarks>This method returns a list of all customers available in the system. If no customers
+        /// <remarks>
+        /// This method returns a list of all customers available in the system. If no customers
         /// are found,  the method responds with a bad request status and an error message. The response is formatted 
-        /// as an HTTP action result.</remarks>
-        /// <returns>An <see cref="ActionResult"/> containing the list of customers if the operation is successful,  or a bad
-        /// request response if no customers are found.</returns>
+        /// as an HTTP action result.
+        /// </remarks>
+        /// <returns>
+        /// An <see cref="ActionResult"/> containing the list of customers if the operation is successful,  or a bad
+        /// request response if no customers are found.
+        /// </returns>
         [HttpGet("GetAllCustomers")]
         public async Task<ActionResult> GetAllCustomers()
         {
@@ -55,6 +59,30 @@ namespace DelsassoStock.Controllers
                 return BadRequest("Failure to search for customers!");
 
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Updates the details of an existing customer.
+        /// </summary>
+        /// <remarks>
+        /// This method asynchronously updates the customer information using the provided data.
+        /// Ensure that <paramref name="idCostumer"/> corresponds to an existing customer.
+        /// </remarks>
+        /// <param name="idCostumer">The unique identifier of the customer to be updated.</param>
+        /// <param name="customerViewModel">An object containing the updated customer details.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the outcome of the operation.  Returns <see langword="Ok"/> if the
+        /// update is successful, or <see langword="BadRequest"/> if the update fails.
+        /// </returns>
+        [HttpPost("EditCustomer")]
+        public async Task<ActionResult> EditCustomer(Guid idCostumer, [FromBody]CustomerViewModel customerViewModel)
+        {
+            var result = await _customerAppService.UpdateCustomerAsync(idCostumer, customerViewModel);
+
+            if (!result)
+                return BadRequest("Failure to update customer.");
+
+            return Ok("Customer updated successfully.");
         }
     }
 }

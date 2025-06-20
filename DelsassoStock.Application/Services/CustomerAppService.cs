@@ -29,7 +29,12 @@ namespace DelsassoStock.Application.Services
 
                     var clearCpf = Regex.Replace(customerViewModel.Cpf, @"[^\d]", "");
 
-                    var client = new Client(Guid.NewGuid(), customerViewModel.Name, clearCpf);
+                    Client client = new Client
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = customerViewModel.Name,
+                        Cpf = clearCpf
+                    };
 
                     var result = await _customerDomainService.RegisterCustomerAsync(client);
 
@@ -55,6 +60,40 @@ namespace DelsassoStock.Application.Services
             {
                 throw new Exception("An error occurred while retrieving customers.", ex);
             }
+        }
+
+        public async Task<bool> UpdateCustomerAsync(Guid idCustomer, CustomerViewModel customerViewModel)
+        {
+            if (customerViewModel != null)
+            {
+                try
+                {
+                    var validator = new CustomerViewModelValidator();
+                    var validationResult = await validator.ValidateAsync(customerViewModel);
+
+                    if (!validationResult.IsValid)
+                        throw new Exception($"{validationResult.Errors}");
+
+                    var existCustomer = await _customerDomainService.GetCustomerByIdAsync(idCustomer);
+
+                    if (existCustomer == null)
+                        return false;
+
+                    var oldCpf = existCustomer.Cpf;
+
+                    var clearCpf = Regex.Replace(customerViewModel.Cpf, @"[^\d]", "");
+
+                    existCustomer.Name = customerViewModel.Name;
+                    existCustomer.Cpf = clearCpf;
+
+                    return await _customerDomainService.UpdateCustomerAsync(existCustomer, oldCpf);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("An error occurred while updating the customer.", ex);
+                }
+            }
+            throw new ArgumentNullException(nameof(customerViewModel), "CustomerViewModel cannot be null.");
         }
     }
 }
