@@ -6,11 +6,11 @@
         {
             Id = id;
             Name = name;
-            CPF = cpf;
+            Cpf = cpf;
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; } = String.Empty;
-        public string CPF { get; set; } = String.Empty;
+        public Guid Id { get; private set; }
+        public string Name { get; private set; } = String.Empty;
+        public string Cpf { get; private set; } = String.Empty;
     }
 }

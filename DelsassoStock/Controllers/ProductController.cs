@@ -87,6 +87,19 @@ namespace DelsassoStock.Controllers
             return Ok("Product updated successfully!");
         }
 
+        /// <summary>
+        /// Deletes a product identified by the specified ID.
+        /// </summary>
+        /// <remarks>
+        /// This method performs an asynchronous operation to delete a product. Ensure that the
+        /// <paramref name="idProduct"/> corresponds to an existing product.
+        /// </remarks>
+        /// <param name="idProduct">The unique identifier of the product to delete.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see
+        /// cref="BadRequestResult"/> if the deletion fails, or <see cref="OkResult"/> if the product is successfully
+        /// deleted.
+        /// </returns>
         [HttpDelete("DeleteProduct")]
         public async Task<ActionResult> DeleteProduct(Guid idProduct)
         {

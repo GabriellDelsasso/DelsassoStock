@@ -37,7 +37,7 @@ namespace DelsassoStock.Application.Services
 
                     if (result)
                         return productItem;
-                    return null;
+                    throw new Exception("Failure to register product.");
                 }
                 catch (Exception ex)
                 {
