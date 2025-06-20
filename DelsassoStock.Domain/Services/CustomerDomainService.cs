@@ -16,6 +16,11 @@ namespace DelsassoStock.Domain.Services
         {
             try
             {
+                var cpfExists = await _customerRepository.CpfExistsAsync(customer.Cpf);
+
+                if (cpfExists)
+                    return false;
+
                 await _customerRepository.AddAsync(customer);
                 return true;
             }

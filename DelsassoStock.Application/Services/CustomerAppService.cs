@@ -2,6 +2,7 @@
 using DelsassoStock.Application.ViewModels;
 using DelsassoStock.Domain.Models.Customer;
 using DelsassoStock.Domain.Services;
+using System.Text.RegularExpressions;
 
 namespace DelsassoStock.Application.Services
 {
@@ -26,7 +27,9 @@ namespace DelsassoStock.Application.Services
                     if (!validationResult.IsValid)
                         throw new Exception($"{validationResult.Errors}");
 
-                    var client = new Client(Guid.NewGuid(), customerViewModel.Name, customerViewModel.Cpf);
+                    var clearCpf = Regex.Replace(customerViewModel.Cpf, @"[^\d]", "");
+
+                    var client = new Client(Guid.NewGuid(), customerViewModel.Name, clearCpf);
 
                     var result = await _customerDomainService.RegisterCustomerAsync(client);
 
