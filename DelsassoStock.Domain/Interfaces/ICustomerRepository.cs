@@ -7,5 +7,7 @@ namespace DelsassoStock.Domain.Interfaces
         Task AddAsync(Client customer);
 
         Task<bool> CpfExistsAsync(string cpf);
+
+        Task<IEnumerable<Client>> GetAllAsync();
     }
 }

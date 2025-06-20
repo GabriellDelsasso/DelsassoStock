@@ -6,5 +6,7 @@ namespace DelsassoStock.Application.Interfaces
     public interface ICustomerAppService
     {
         Task<Client> RegisterCustomerAsync(CustomerViewModel customerViewModel);
+
+        Task<IEnumerable<Client>> GetAllCustomersAsync();
     }
 }

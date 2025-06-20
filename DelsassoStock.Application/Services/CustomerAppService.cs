@@ -44,5 +44,17 @@ namespace DelsassoStock.Application.Services
             }
             throw new ArgumentNullException(nameof(customerViewModel), "CustomerViewModel cannot be null.");
         }
+
+        public async Task<IEnumerable<Client>> GetAllCustomersAsync()
+        {
+            try
+            {
+                return await _customerDomainService.GetAllCustomersAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving customers.", ex);
+            }
+        }
     }
 }

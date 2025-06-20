@@ -1,5 +1,6 @@
 ﻿using DelsassoStock.Domain.Interfaces;
 using DelsassoStock.Domain.Models.Customer;
+using DelsassoStock.Domain.Models.Product;
 using DelsassoStock.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,11 @@ namespace DelsassoStock.Infra.Data.Repositories
         public async Task<bool> CpfExistsAsync(string cpf)
         {
             return await _context.Clients.AnyAsync(c => c.Cpf == cpf);
+        }
+
+        public async Task<IEnumerable<Client>> GetAllAsync()
+        {
+            return await _context.Clients.ToListAsync();
         }
     }
 }
