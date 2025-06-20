@@ -75,7 +75,7 @@ namespace DelsassoStock.Controllers
         /// update is successful, or <see langword="BadRequest"/> if the update fails.
         /// </returns>
         [HttpPost("EditCustomer")]
-        public async Task<ActionResult> EditCustomer(Guid idCostumer, [FromBody]CustomerViewModel customerViewModel)
+        public async Task<ActionResult> EditCustomer(Guid idCostumer, [FromBody] CustomerViewModel customerViewModel)
         {
             var result = await _customerAppService.UpdateCustomerAsync(idCostumer, customerViewModel);
 
@@ -83,6 +83,28 @@ namespace DelsassoStock.Controllers
                 return BadRequest("Failure to update customer.");
 
             return Ok("Customer updated successfully.");
+        }
+
+        /// <summary>
+        /// Deletes a customer with the specified identifier.
+        /// </summary>
+        /// <remarks>
+        /// This method performs an asynchronous operation to delete a customer.  Ensure that the
+        /// <paramref name="idCostumer"/> corresponds to an existing customer.
+        /// </remarks>
+        /// <param name="idCostumer">The unique identifier of the customer to delete.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see langword="Ok"/> if the
+        /// customer was successfully deleted, or  <see langword="BadRequest"/> if the deletion failed.
+        /// </returns>
+        [HttpDelete("DeleteCustomer")]
+        public async Task<ActionResult> DeleteCustomer(Guid idCostumer)
+        {
+            var result = await _customerAppService.DeleteCustomerAsync(idCostumer);
+            if (!result)
+                return BadRequest("Failure to delete customer.");
+
+            return Ok("Customer deleted successfully.");
         }
     }
 }

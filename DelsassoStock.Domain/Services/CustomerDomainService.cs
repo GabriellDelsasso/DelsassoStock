@@ -74,5 +74,18 @@ namespace DelsassoStock.Domain.Services
                 return null;
             }
         }
+
+        public async Task<bool> DeleteCustomerAsync(Guid id)
+        {
+            try
+            {
+                await _customerRepository.DeleteAsync(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

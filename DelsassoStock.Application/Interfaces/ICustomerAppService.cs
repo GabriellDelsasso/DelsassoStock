@@ -10,5 +10,7 @@ namespace DelsassoStock.Application.Interfaces
         Task<IEnumerable<Client>> GetAllCustomersAsync();
 
         Task<bool> UpdateCustomerAsync(Guid idCustomer, CustomerViewModel customerViewModel);
+
+        Task<bool> DeleteCustomerAsync(Guid idCustomer);
     }
 }

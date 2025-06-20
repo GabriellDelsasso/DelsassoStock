@@ -46,5 +46,19 @@ namespace DelsassoStock.Infra.Data.Repositories
 
             return customer;
         }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var customer = await _context.Clients.FindAsync(id);
+            if (customer != null)
+            {
+                _context.Clients.Remove(customer);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException("Customer not found.");
+            }
+        }
     }
 }

@@ -95,5 +95,22 @@ namespace DelsassoStock.Application.Services
             }
             throw new ArgumentNullException(nameof(customerViewModel), "CustomerViewModel cannot be null.");
         }
+
+        public async Task<bool> DeleteCustomerAsync(Guid idCustomer)
+        {
+            try
+            {
+                var existCustomer = await _customerDomainService.GetCustomerByIdAsync(idCustomer);
+                if (existCustomer == null)
+                    return false;
+
+                await _customerDomainService.DeleteCustomerAsync(idCustomer);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while deleting the customer.", ex);
+            }
+        }
     }
 }
