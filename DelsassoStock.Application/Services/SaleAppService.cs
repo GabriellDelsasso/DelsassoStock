@@ -68,5 +68,25 @@ namespace DelsassoStock.Application.Services
             await _saleDomainService.AddSaleAsync(sale);
             return true;
         }
+
+        public async Task<List<SaleResultViewModel>> GetAllSalesAsync()
+        {
+            var sales = await _saleDomainService.GetAllSalesAsync();
+
+            return sales.Select(s => new SaleResultViewModel
+            {
+                Id = s.Id,
+                CustomerId = s.CustomerId,
+                CustomerName = s.Customer?.Name,
+                TotalSale = s.TotalSale,
+                Items = s.Items.Select(i => new SaleItemResultViewModel
+                {
+                    ProductItemId = i.ProductItemId,
+                    ProductName = i.ProductItem?.Name ?? "",
+                    Quantity = i.Quantity,
+                    UnitPrice = i.UnitPrice
+                }).ToList()
+            }).ToList();
+        }
     }
 }

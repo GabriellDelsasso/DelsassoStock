@@ -37,5 +37,24 @@ namespace DelsassoStock.Controllers
 
             return Ok("Sale created successfully.");
         }
+
+        /// <summary>
+        /// Retrieves a list of all sales records.
+        /// </summary>
+        /// <remarks>
+        /// This method returns a collection of sales data in the form of <see
+        /// cref="SaleResultViewModel"/> objects. The data is fetched asynchronously from the underlying sales
+        /// application service.
+        /// </remarks>
+        /// <returns>
+        /// An <see cref="ActionResult{T}"/> containing a list of <see cref="SaleResultViewModel"/> objects representing
+        /// the sales records. Returns an empty list if no sales records are found.
+        /// </returns>
+        [HttpGet("GetAllSales")]
+        public async Task<ActionResult<List<SaleResultViewModel>>> GetAllSales()
+        {
+            var sales = await _saleAppService.GetAllSalesAsync();
+            return Ok(sales);
+        }
     }
 }

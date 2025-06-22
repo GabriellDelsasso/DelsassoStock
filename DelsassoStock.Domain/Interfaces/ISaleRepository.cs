@@ -5,5 +5,7 @@ namespace DelsassoStock.Domain.Interfaces
     public interface ISaleRepository
     {
         Task AddAsync(Sale sale);
+
+        Task<List<Sale>> GetAllAsync();
     }
 }

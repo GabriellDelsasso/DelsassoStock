@@ -23,5 +23,17 @@ namespace DelsassoStock.Domain.Services
                 throw new InvalidOperationException("An error occurred while adding the sale.", ex);
             }
         }
+
+        public async Task<List<Sale>> GetAllSalesAsync()
+        {
+            try
+            {
+                return await _saleRepository.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while retrieving sales.", ex);
+            }
+        }
     }
 }
