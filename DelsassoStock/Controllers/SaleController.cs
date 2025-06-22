@@ -14,6 +14,19 @@ namespace DelsassoStock.Controllers
             _saleAppService = saleAppService;
         }
 
+        /// <summary>
+        /// Creates a new sale based on the provided sale details.
+        /// </summary>
+        /// <remarks>
+        /// Ensure that the <paramref name="saleViewModel"/> contains valid and complete data for
+        /// the sale.  If the data is invalid or incomplete, the method will return a <see langword="BadRequest"/>
+        /// response.
+        /// </remarks>
+        /// <param name="saleViewModel">The sale details to be created, provided as a <see cref="SaleViewModel"/> object.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see langword="Ok"/> if the
+        /// sale is successfully created, or <see langword="BadRequest"/> if the creation fails.
+        /// </returns>
         [HttpPost("CreateSale")]
         public async Task<ActionResult> CreateSale([FromBody] SaleViewModel saleViewModel)
         {
