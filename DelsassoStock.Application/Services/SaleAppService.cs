@@ -39,6 +39,12 @@ namespace DelsassoStock.Application.Services
                 var product = await _productDomainService.GetProductByIdAsync(item.ProductItemId);
                 if (product == null) continue;
 
+                if (product.Quantity < item.Quantity)
+                    return false;
+
+                product.Quantity -= item.Quantity;
+                await _productDomainService.UpdateProductAsync(product);
+
                 var saleItem = new SaleItem
                 {
                     Id = Guid.NewGuid(),
