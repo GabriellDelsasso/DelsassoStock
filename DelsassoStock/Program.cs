@@ -24,10 +24,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddScoped<ICustomerAppService, CustomerAppService>();
 builder.Services.AddScoped<IProductAppService, ProductAppService>();
+builder.Services.AddScoped<ISaleAppService, SaleAppService>();
 builder.Services.AddScoped<CustomerDomainService>();
 builder.Services.AddScoped<ProductDomainService>();
+builder.Services.AddScoped<SaleDomainService>();
 
 var app = builder.Build();
 
