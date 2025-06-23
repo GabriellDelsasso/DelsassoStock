@@ -28,5 +28,36 @@ namespace DelsassoStock.Infra.Data.Repositories
                     .ThenInclude(i => i.ProductItem)
                 .ToListAsync();
         }
+
+        public async Task<Sale?> GetByIdAsync(Guid id)
+        {
+            return await _context.Sales
+                .Include(s => s.Items)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task UpdateAsync(Sale sale)
+        {
+            _context.Sales.Update(sale);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveSaleItemAsync(Sale sale, Guid updatedProductItemId)
+        {
+            var itemToRemove = sale.Items
+                .Where(item => item.Id == updatedProductItemId);
+
+            if (itemToRemove.Any())
+            {
+                _context.SaleItem.RemoveRange(itemToRemove);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task CreateSaleItemAsync(SaleItem saleItem)
+        {
+            _context.SaleItem.Add(saleItem);
+            await _context.SaveChangesAsync();
+        }
     }
 }

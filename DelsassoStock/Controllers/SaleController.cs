@@ -56,5 +56,15 @@ namespace DelsassoStock.Controllers
             var sales = await _saleAppService.GetAllSalesAsync();
             return Ok(sales);
         }
+
+        [HttpPut("UpdateSale")]
+        public async Task<ActionResult> UpdateSale(Guid id, [FromBody] SaleViewModel saleViewModel)
+        {
+            var result = await _saleAppService.UpdateSale(id, saleViewModel);
+            if (!result)
+                return BadRequest("Failed to update sale. Please check the provided data.");
+
+            return Ok("Sale updated successfully.");
+        }
     }
 }

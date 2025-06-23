@@ -14,6 +14,7 @@ namespace DelsassoStock.Infra.Data.Context
         public DbSet<ProductItem> Products { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<SaleItem> SaleItem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
