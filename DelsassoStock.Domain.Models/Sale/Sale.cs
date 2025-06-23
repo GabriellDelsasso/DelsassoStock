@@ -1,5 +1,4 @@
 ﻿using DelsassoStock.Domain.Models.Customer;
-using DelsassoStock.Domain.Models.Product;
 
 namespace DelsassoStock.Domain.Models.Sale
 {

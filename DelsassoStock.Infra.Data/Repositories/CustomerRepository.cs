@@ -1,6 +1,5 @@
 ﻿using DelsassoStock.Domain.Interfaces;
 using DelsassoStock.Domain.Models.Customer;
-using DelsassoStock.Domain.Models.Product;
 using DelsassoStock.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 

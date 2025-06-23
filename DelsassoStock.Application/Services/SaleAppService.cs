@@ -1,7 +1,6 @@
 ﻿using DelsassoStock.Application.Interfaces;
 using DelsassoStock.Application.ViewModels;
 using DelsassoStock.Domain.Models.Customer;
-using DelsassoStock.Domain.Models.Product;
 using DelsassoStock.Domain.Models.Sale;
 using DelsassoStock.Domain.Services;
 
