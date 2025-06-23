@@ -76,7 +76,7 @@ namespace DelsassoStock.Controllers
         /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see langword="Ok"/> if the
         /// product was updated successfully;  otherwise, returns <see langword="BadRequest"/> with an error message.
         /// </returns>
-        [HttpPost("EditProduct")]
+        [HttpPut("EditProduct")]
         public async Task<ActionResult> EditProduct(Guid idProduct, [FromBody] ProductViewModel productViewModel)
         {
             var result = await _productAppService.UpdateProduct(idProduct, productViewModel);

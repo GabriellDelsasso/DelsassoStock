@@ -74,7 +74,7 @@ namespace DelsassoStock.Controllers
         /// An <see cref="ActionResult"/> indicating the outcome of the operation.  Returns <see langword="Ok"/> if the
         /// update is successful, or <see langword="BadRequest"/> if the update fails.
         /// </returns>
-        [HttpPost("EditCustomer")]
+        [HttpPut("EditCustomer")]
         public async Task<ActionResult> EditCustomer(Guid idCostumer, [FromBody] CustomerViewModel customerViewModel)
         {
             var result = await _customerAppService.UpdateCustomerAsync(idCostumer, customerViewModel);
