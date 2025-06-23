@@ -17,98 +17,164 @@ namespace DelsassoStock.Controllers
         /// <summary>
         /// Registers a new product using the provided product details.
         /// </summary>
-        /// <remarks>
-        /// This method processes the product registration request by delegating to the
-        /// application service. Ensure that <paramref name="productViewModel"/> contains all required fields and valid
-        /// data.
-        /// </remarks>
-        /// <param name="productViewModel">The product details to register. Must contain valid data for the product.</param>
-        /// <returns>
-        /// An <see cref="ActionResult"/> indicating the result of the operation.
-        /// Returns  <see cref="BadRequestObjectResult"/> if the product data is invalid, or <see cref="OkObjectResult"/> containing
-        /// the registered product details if the operation succeeds.
-        /// </returns>
+        /// <remarks>This method handles product registration by delegating the operation to the
+        /// application service. It returns an HTTP 200 status code for successful registrations and an HTTP 400 status
+        /// code for errors.</remarks>
+        /// <param name="productViewModel">The product details to register. This parameter must contain valid product information.</param>
+        /// <returns>An <see cref="IActionResult"/> containing the result of the operation.  If successful, the response includes
+        /// a success message and the registered product data. If the operation fails, the response includes an error
+        /// message and details.</returns>
         [HttpPost("RegisterProduct")]
-        public async Task<ActionResult> RegisterProduct(ProductViewModel productViewModel)
+        public async Task<IActionResult> RegisterProduct(ProductViewModel productViewModel)
         {
-            var result = await _productAppService.RegisterProduct(productViewModel);
+            try
+            {
+                var result = await _productAppService.RegisterProduct(productViewModel);
 
-            if (result == null)
-                return BadRequest("Invalid product data.");
-
-            return Ok(result);
+                return Ok(new ResultViewModel
+                {
+                    Success = true,
+                    Message = "Product registered successfully!",
+                    Data = result
+                });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(new ResultViewModel
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResultViewModel
+                {
+                    Success = false,
+                    Message = $"An error occurred while registering the product",
+                    Data = ex.InnerException?.Message ?? ex.Message
+                });
+            }
         }
 
         /// <summary>
-        /// Retrieves all available products.
+        /// Retrieves all products from the system.
         /// </summary>
-        /// <remarks>
-        /// This method returns a list of products from the underlying service. If no products
-        /// are found, the method responds with a bad request status and an error message. Otherwise, it returns an HTTP
-        /// 200 status with the list of products.
-        /// </remarks>
-        /// <returns>
-        /// An <see cref="ActionResult"/> containing either a list of products with an HTTP 200 status or an error
-        /// message with an HTTP 400 status if no products are found.
-        /// </returns>
+        /// <remarks>This method returns a list of all available products wrapped in a result view model. 
+        /// If the operation is successful, the response contains a success message and the product data. In case of an
+        /// error, the response includes an error message and the exception details.</remarks>
+        /// <returns>An <see cref="ActionResult"/> containing a <see cref="ResultViewModel"/> with the operation result. If
+        /// successful, the <c>Data</c> property contains the list of products. If an error occurs, the <c>Data</c>
+        /// property contains the error details.</returns>
         [HttpGet("GetAllProducts")]
         public async Task<ActionResult> GetAllProducts()
         {
-            var result = await _productAppService.GetAllProducts();
+            try
+            {
+                var result = await _productAppService.GetAllProducts();
 
-            if (result.Count() == 0)
-                return BadRequest("Failure to search for products!");
-
-            return Ok(result);
+                return Ok(new ResultViewModel
+                {
+                    Success = true,
+                    Message = "Produtos recuperados com sucesso.",
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultViewModel
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving products.",
+                    Data = ex.InnerException?.Message ?? ex.Message
+                });
+            }
         }
 
         /// <summary>
         /// Updates the details of an existing product.
         /// </summary>
-        /// <remarks>
-        /// This method requires a valid <paramref name="idProduct"/> and a properly populated 
-        /// <paramref name="productViewModel"/> object. Ensure that the product exists before calling this
-        /// method.
-        /// </remarks>
+        /// <remarks>This method uses the <c>PUT</c> HTTP verb and expects the product details to be
+        /// provided in the request body. Ensure that the <paramref name="idProduct"/> corresponds to an existing
+        /// product.</remarks>
         /// <param name="idProduct">The unique identifier of the product to be updated.</param>
-        /// <param name="productViewModel">The updated product details provided in the request body.</param>
-        /// <returns>
-        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see langword="Ok"/> if the
-        /// product was updated successfully;  otherwise, returns <see langword="BadRequest"/> with an error message.
-        /// </returns>
+        /// <param name="productViewModel">An object containing the updated product details. This must include all required fields for the product.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.  Returns a 200 OK response with a
+        /// success message if the product is updated successfully.  Returns a 404 Not Found response if the product
+        /// does not exist or the update fails.  Returns a 500 Internal Server Error response if an unexpected error
+        /// occurs.</returns>
         [HttpPut("EditProduct")]
         public async Task<ActionResult> EditProduct(Guid idProduct, [FromBody] ProductViewModel productViewModel)
         {
-            var result = await _productAppService.UpdateProduct(idProduct, productViewModel);
+            try
+            {
+                var result = await _productAppService.UpdateProduct(idProduct, productViewModel);
 
-            if (!result)
-                return BadRequest("Failed to update product");
-
-            return Ok("Product updated successfully!");
+                if(result)
+                {
+                     return Ok(new ResultViewModel
+                    {
+                        Success = true,
+                        Message = "Product updated successfully!"
+                    });
+                }
+                return NotFound(new ResultViewModel
+                {
+                    Success = false,
+                    Message = "Product not found or update failed."
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultViewModel
+                {
+                    Success = false,
+                    Message = "An error occurred while updating the product.",
+                    Data = ex.InnerException?.Message ?? ex.Message
+                });
+            }
         }
 
         /// <summary>
         /// Deletes a product identified by the specified ID.
         /// </summary>
-        /// <remarks>
-        /// This method performs an asynchronous operation to delete a product. Ensure that the
-        /// <paramref name="idProduct"/> corresponds to an existing product.
-        /// </remarks>
-        /// <param name="idProduct">The unique identifier of the product to delete.</param>
-        /// <returns>
-        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see
-        /// cref="BadRequestResult"/> if the deletion fails, or <see cref="OkResult"/> if the product is successfully
-        /// deleted.
-        /// </returns>
+        /// <remarks>This method performs a delete operation on the product resource. Ensure the <paramref
+        /// name="idProduct"/>  corresponds to an existing product before calling this method.</remarks>
+        /// <param name="idProduct">The unique identifier of the product to delete. Must be a valid <see cref="Guid"/>.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.  Returns a 200 OK response with a
+        /// success message if the product is deleted successfully.  Returns a 404 Not Found response if the product is
+        /// not found or the deletion fails.  Returns a 500 Internal Server Error response if an unexpected error
+        /// occurs.</returns>
         [HttpDelete("DeleteProduct")]
         public async Task<ActionResult> DeleteProduct(Guid idProduct)
         {
-            var result = await _productAppService.DeleteProductAsync(idProduct);
+            try
+            {
+                var result = await _productAppService.DeleteProductAsync(idProduct);
 
-            if (!result)
-                return BadRequest("Failed to delete product");
-
-            return Ok("Product deleted successfully!");
+                if(result)
+                {
+                    return Ok(new ResultViewModel
+                    {
+                        Success = true,
+                        Message = "Product deleted successfully!"
+                    });
+                }
+                return NotFound(new ResultViewModel
+                {
+                    Success = false,
+                    Message = "Product not found or deletion failed."
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultViewModel
+                {
+                    Success = false,
+                    Message = "An error occurred while deleting the product.",
+                    Data = ex.InnerException?.Message ?? ex.Message
+                });
+            }
         }
     }
 }
