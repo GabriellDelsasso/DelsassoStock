@@ -9,5 +9,7 @@ namespace DelsassoStock.Application.Interfaces
         Task<List<SaleResultViewModel>> GetAllSalesAsync();
 
         Task<bool> UpdateSale(Guid saleId, SaleViewModel saleViewModel);
+
+        Task<bool> DeleteSale(Guid saleId);
     }
 }

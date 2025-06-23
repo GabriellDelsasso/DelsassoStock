@@ -42,6 +42,20 @@ namespace DelsassoStock.Infra.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            var sale = await _context.Sales.FindAsync(id);
+            if (sale != null)
+            {
+                _context.Sales.Remove(sale);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException("Product not found.");
+            }
+        }
+
         public async Task RemoveSaleItemAsync(Sale sale, Guid updatedProductItemId)
         {
             var itemToRemove = sale.Items

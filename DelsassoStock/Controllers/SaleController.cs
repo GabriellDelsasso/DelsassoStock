@@ -32,7 +32,7 @@ namespace DelsassoStock.Controllers
         {
             var result = await _saleAppService.CreateSale(saleViewModel);
 
-            if(!result)
+            if (!result)
                 return BadRequest("Failed to create sale. Please check the provided data.");
 
             return Ok("Sale created successfully.");
@@ -57,6 +57,21 @@ namespace DelsassoStock.Controllers
             return Ok(sales);
         }
 
+        /// <summary>
+        /// Updates an existing sale with the specified details.
+        /// </summary>
+        /// <remarks>
+        /// Ensure that the <paramref name="id"/> corresponds to an existing sale and that 
+        /// <paramref name="saleViewModel"/> contains valid data. Invalid or incomplete data  may result in a failed
+        /// update.
+        /// </remarks>
+        /// <param name="id">The unique identifier of the sale to be updated.</param>
+        /// <param name="saleViewModel">The updated sale details provided in the request body.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see langword="Ok"/> if the
+        /// sale was updated successfully;  otherwise, returns <see langword="BadRequest"/> with an error message if the
+        /// update fails.
+        /// </returns>
         [HttpPut("UpdateSale")]
         public async Task<ActionResult> UpdateSale(Guid id, [FromBody] SaleViewModel saleViewModel)
         {
@@ -65,6 +80,29 @@ namespace DelsassoStock.Controllers
                 return BadRequest("Failed to update sale. Please check the provided data.");
 
             return Ok("Sale updated successfully.");
+        }
+
+        /// <summary>
+        /// Deletes a sale identified by the specified ID.
+        /// </summary>
+        /// <remarks>
+        /// Ensure that the <paramref name="id"/> corresponds to an existing sale.  If the sale
+        /// does not exist or the deletion fails, a bad request response is returned.
+        /// </remarks>
+        /// <param name="id">The unique identifier of the sale to be deleted.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation.  Returns <see cref="OkObjectResult"/>
+        /// if the sale was successfully deleted,  or <see cref="BadRequestObjectResult"/> if the deletion failed.
+        /// </returns>
+        [HttpDelete("DeleteSale")]
+        public async Task<ActionResult> DeleteSale(Guid id)
+        {
+            var result = await _saleAppService.DeleteSale(id);
+
+            if (!result)
+                return BadRequest("Failed to delete sale. Please check the provided data.");
+
+            return Ok("Sale deleted successfully.");
         }
     }
 }

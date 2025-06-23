@@ -15,5 +15,7 @@ namespace DelsassoStock.Domain.Interfaces
         Task RemoveSaleItemAsync(Sale sale, Guid updatedProductItemId);
 
         Task CreateSaleItemAsync(SaleItem saleItem);
+
+        Task DeleteAsync(Guid id);
     }
 }

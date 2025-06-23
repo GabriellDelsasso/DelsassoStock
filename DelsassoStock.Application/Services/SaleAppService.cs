@@ -112,6 +112,26 @@ namespace DelsassoStock.Application.Services
             return true;
         }
 
+        public async Task<bool> DeleteSale(Guid saleId)
+        {
+            var sale = await _saleDomainService.GetSaleByIdAsync(saleId);
+
+            if (sale == null)
+                return false;
+
+            foreach (var item in sale.Items)
+            {
+                var product = await _productDomainService.GetProductByIdAsync(item.ProductItemId);
+                if (product != null)
+                {
+                    product.Quantity += item.Quantity;
+                    await _productDomainService.UpdateProductAsync(product);
+                }
+            }
+            await _saleDomainService.DeleteSaleAsync(saleId);
+            return true;
+        }
+
         private async Task UpdateOrRemoveExistingItemsAsync(Sale sale, Dictionary<Guid, SaleItemViewModel> updatedItems)
         {
             for (int i = sale.Items.Count - 1; i >= 0; i--)

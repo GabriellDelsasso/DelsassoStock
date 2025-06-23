@@ -60,6 +60,18 @@ namespace DelsassoStock.Domain.Services
             }
         }
 
+        public async Task DeleteSaleAsync(Guid saleId)
+        {
+            try
+            {
+                await _saleRepository.DeleteAsync(saleId);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while deleting the sale.", ex);
+            }
+        }
+
         public async Task RemoveSaleItemAsync(Sale sale, Guid updatedProductItemId)
         {
             try
